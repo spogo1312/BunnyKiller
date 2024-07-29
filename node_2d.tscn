@@ -186,9 +186,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8qfu2"]
-radius = 6.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qygd8"]
+size = Vector2(13, 13)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_27a86"]
 size = Vector2(328, 54)
@@ -202,11 +201,11 @@ script = ExtResource("1_6srfh")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
 sprite_frames = SubResource("SpriteFrames_lih4v")
 animation = &"Walk"
-frame_progress = 0.790499
+frame_progress = 0.623774
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(-1, 2)
-shape = SubResource("CapsuleShape2D_8qfu2")
+position = Vector2(-0.5, 2.5)
+shape = SubResource("RectangleShape2D_qygd8")
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 
