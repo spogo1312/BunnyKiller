@@ -11,6 +11,9 @@ extends CharacterBody2D
 
 # Declare nodes
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var animationPlayer = $AnimationPlayer
+@onready var spriteGroundAttack = $Sprite2D
+
 
 # Variables to handle jump timing
 var jump_time = 0
@@ -26,16 +29,23 @@ func _ready():
 func _physics_process(delta):
 	# Reset horizontal motion
 	var motion = Vector2.ZERO
-
+	if( not is_double_slashing):
+		animationPlayer.play("Default")
+		spriteGroundAttack.hide()
+		animated_sprite.show()
+		
+	else:
+		spriteGroundAttack.show()
+		animated_sprite.hide()
 	# DoubleSlash action
 	if Input.is_action_just_pressed("DoubleSlash") and is_on_floor():
 		is_double_slashing = true
-		animated_sprite.play("DoubleSlash")
+		animationPlayer.play("GroundAttack")
 		return  # Skip the rest of the process while DoubleSlash is playing
 
 	# If DoubleSlash animation is playing, move the player
 	if is_double_slashing:
-		if not animated_sprite.is_playing() or animated_sprite.animation != "DoubleSlash":
+		if not animationPlayer.is_playing() or animationPlayer.current_animation != "GroundAttack":
 			is_double_slashing = false
 		else:
 			# Apply movement during DoubleSlash
@@ -46,11 +56,15 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_right"):
 		motion.x += speed
 		animated_sprite.flip_h = false
+		spriteGroundAttack.flip_h = false
+		spriteGroundAttack.position.x = 15
 		if is_on_floor() and !show_landing_frame:
 			animated_sprite.play("Walk")
 	elif Input.is_action_pressed("ui_left"):
 		motion.x -= speed
 		animated_sprite.flip_h = true
+		spriteGroundAttack.flip_h = true
+		spriteGroundAttack.position.x = -13;
 		if is_on_floor() and !show_landing_frame:
 			animated_sprite.play("Walk")
 	else:
