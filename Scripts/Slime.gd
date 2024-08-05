@@ -11,6 +11,8 @@ var is_jumping = false
 var is_landing = false
 var jump_direction = Vector2.ZERO
 var speed = 0.0
+var hp = 10
+var is_dead = false
 
 func _ready():
 	speed = randf_range(30.0, 40.0)
@@ -18,6 +20,7 @@ func _ready():
 	animated_sprite.animation_finished.connect(_on_animation_finished)
 	animated_sprite.play("Idle")
 	jump_timer.start(2)
+	animated_sprite.connect("animation_finished", self._on_animation_changed)
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -96,6 +99,15 @@ func _print_debug_info():
 	print("Speed: ", speed)
 # Add the die function to handle enemy death
 func die():
+	animated_sprite.stop()
 	animated_sprite.play("Death")
-	if animated_sprite.animation != "Death":
+	is_dead = true
+	
+	
+func take_damage(amount: int) -> void:
+	hp -= amount
+	if hp <= 0:
+		die()
+func _on_animation_changed():
+	if is_dead:
 		queue_free()

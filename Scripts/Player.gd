@@ -8,13 +8,13 @@ extends CharacterBody2D
 @export var coyote_time = 0.1 # Time window to allow jumps after leaving the ground
 @export var is_double_slashing = false
 @export var landing_frame_duration = 0.5 # Duration to show the landing frame
-@export var slime_scene = preload("res://slime.tscn")
+@export var slime_scene = preload("res://Scenes/slime.tscn")
 
 # Declare nodes
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var animationPlayer = $AnimationPlayer
 @onready var spriteGroundAttack = $Sprite2D
-
+@onready var GroundAttackHitbox = $Sprite2D/HitBox/CollisionShape2D
 
 # Variables to handle jump timing
 var jump_time = 0
@@ -62,13 +62,17 @@ func _physics_process(delta):
 		animated_sprite.flip_h = false
 		spriteGroundAttack.flip_h = false
 		spriteGroundAttack.position.x = 15
+		GroundAttackHitbox.position.x = 15
+		
 		if is_on_floor() and !show_landing_frame:
 			animated_sprite.play("Walk")
 	elif Input.is_action_pressed("ui_left"):
 		motion.x -= speed
 		animated_sprite.flip_h = true
 		spriteGroundAttack.flip_h = true
-		spriteGroundAttack.position.x = -13;
+		spriteGroundAttack.position.x = -13
+		GroundAttackHitbox.position.x = -13
+		
 		if is_on_floor() and !show_landing_frame:
 			animated_sprite.play("Walk")
 	else:

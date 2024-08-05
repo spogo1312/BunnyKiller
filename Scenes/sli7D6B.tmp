@@ -1,78 +1,79 @@
-[gd_scene load_steps=23 format=3 uid="uid://bsuchc5yf668a"]
+[gd_scene load_steps=25 format=3 uid="uid://bsuchc5yf668a"]
 
-[ext_resource type="Script" path="res://Slime.gd" id="1_2esbi"]
-[ext_resource type="Texture2D" uid="uid://cuvkbxcgebcjo" path="res://Sprites/Enemies/Slime-Sheet.png" id="2_faakl"]
+[ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_rpdj1"]
+[ext_resource type="Texture2D" uid="uid://cuvkbxcgebcjo" path="res://Sprites/Enemies/Slime-Sheet.png" id="2_cjn7t"]
+[ext_resource type="Script" path="res://NodeScripts/HurtBox.gd" id="3_x8xku"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hxsrj"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(300, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_88hxk"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(330, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ki4i4"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(360, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cdgw8"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(390, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pxxhr"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(420, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i0pc8"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(450, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wlr8v"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(0, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8vsj8"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(30, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nq01r"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(120, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_llaol"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(150, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_teyxr"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(0, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2g8xu"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(30, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lmgtl"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(60, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pctj1"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(90, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_honco"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(180, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sxmvy"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(210, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h6u1h"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(240, 0, 30, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o6fi4"]
-atlas = ExtResource("2_faakl")
+atlas = ExtResource("2_cjn7t")
 region = Rect2(270, 0, 30, 30)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gvpu5"]
@@ -167,6 +168,9 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_awgrs"]
+radius = 8.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_gyqx1"]
 radius = 6.0208
 
@@ -174,13 +178,17 @@ radius = 6.0208
 position = Vector2(309, 109)
 collision_layer = 2
 collision_mask = 14
-script = ExtResource("1_2esbi")
+script = ExtResource("1_rpdj1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gvpu5")
-animation = &"Land"
-frame = 3
-frame_progress = 1.0
+animation = &"Death"
+
+[node name="HurtBox" type="Area2D" parent="AnimatedSprite2D"]
+script = ExtResource("3_x8xku")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HurtBox"]
+shape = SubResource("CircleShape2D_awgrs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)

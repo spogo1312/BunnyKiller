@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var player_scene = preload("res://Player.tscn")
-@export var slime_scene = preload("res://slime.tscn")
+@export var player_scene = preload("res://Scenes/Player.tscn")
+@export var slime_scene = preload("res://Scenes/slime.tscn")
 @export var max_slimes = 4
 @export var spawn_distance = 50 # Distance from the camera view
 var player = null
