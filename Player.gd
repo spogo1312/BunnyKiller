@@ -8,6 +8,7 @@ extends CharacterBody2D
 @export var coyote_time = 0.1 # Time window to allow jumps after leaving the ground
 @export var is_double_slashing = false
 @export var landing_frame_duration = 0.5 # Duration to show the landing frame
+@export var slime_scene = preload("res://slime.tscn")
 
 # Declare nodes
 @onready var animated_sprite = $AnimatedSprite2D
@@ -23,8 +24,11 @@ var previous_velocity_y = 0
 var landing_frame_timer = 0.0
 var show_landing_frame = false
 
+
+signal spawned
 func _ready():
 	animated_sprite.play("Idle")
+	emit_signal("spawned")
 
 func _physics_process(delta):
 	# Reset horizontal motion
@@ -140,5 +144,9 @@ func update_jump_frame():
 			animated_sprite.frame = 5
 		elif velocity.y > 200:
 			animated_sprite.frame = 6
-		
+func _on_Player_spawned():
+	# Instantiate the slime scene
+	var slime = slime_scene.instantiate()
+	add_child(slime)
+	slime.set_player(self) # Pass the player reference to the slime
 
