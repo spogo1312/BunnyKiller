@@ -556,6 +556,7 @@ texture = ExtResource("9_rchbe")
 stretch_mode = 1
 
 [node name="ParallaxLayer7" type="ParallaxLayer" parent="Paralax/ParallaxBackground"]
+visible = false
 motion_scale = Vector2(0.95, 0)
 motion_mirroring = Vector2(960, 0)
 
