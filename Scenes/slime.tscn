@@ -1,8 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://bsuchc5yf668a"]
+[gd_scene load_steps=31 format=3 uid="uid://bsuchc5yf668a"]
 
 [ext_resource type="Script" path="res://Scripts/Slime.gd" id="1_rpdj1"]
 [ext_resource type="Texture2D" uid="uid://cuvkbxcgebcjo" path="res://Sprites/Enemies/Slime-Sheet.png" id="2_cjn7t"]
 [ext_resource type="Script" path="res://NodeScripts/HurtBox.gd" id="3_x8xku"]
+[ext_resource type="Texture2D" uid="uid://542t8k3xe0td" path="res://Sprites/Enemies/SLimeHitParticle.png" id="4_pxscv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hxsrj"]
 atlas = ExtResource("2_cjn7t")
@@ -174,6 +175,84 @@ radius = 8.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_gyqx1"]
 radius = 6.0208
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u1ceo"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 30.0
+initial_velocity_min = 67.42
+initial_velocity_max = 112.36
+scale_min = 0.3
+
+[sub_resource type="Animation" id="Animation_yci68"]
+resource_name = "Hit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HitParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_5ja0q"]
+resource_name = "Death"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [11, 12, 13, 14, 15]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.9, 0.9001),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}, {
+"args": [],
+"method": &"animation_finished"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_3hxd3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_asdmn"]
+_data = {
+"Death": SubResource("Animation_5ja0q"),
+"Hit": SubResource("Animation_yci68"),
+"RESET": SubResource("Animation_3hxd3")
+}
+
 [node name="Slime" type="CharacterBody2D" groups=["enemies"]]
 position = Vector2(309, 109)
 collision_layer = 2
@@ -182,7 +261,7 @@ script = ExtResource("1_rpdj1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gvpu5")
-animation = &"Death"
+animation = &"Land"
 
 [node name="HurtBox" type="Area2D" parent="AnimatedSprite2D"]
 script = ExtResource("3_x8xku")
@@ -196,3 +275,23 @@ shape = SubResource("CircleShape2D_gyqx1")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="HitParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_u1ceo")
+texture = ExtResource("4_pxscv")
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.85
+randomness = 0.48
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_asdmn")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_cjn7t")
+hframes = 16
+frame = 11

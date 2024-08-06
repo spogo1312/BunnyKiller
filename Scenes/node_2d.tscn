@@ -506,6 +506,7 @@ Frame = 0
 "Speed Scale" = 1.0
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="Paralax/ParallaxBackground"]
+visible = false
 motion_scale = Vector2(0.6, 0)
 motion_mirroring = Vector2(960, 0)
 
@@ -522,6 +523,7 @@ Frame = 0
 metadata/_edit_use_anchors_ = true
 
 [node name="ParallaxLayer5" type="ParallaxLayer" parent="Paralax/ParallaxBackground"]
+visible = false
 motion_scale = Vector2(0.75, 0)
 motion_mirroring = Vector2(960, 0)
 
@@ -537,6 +539,7 @@ texture = ExtResource("8_45jyy")
 stretch_mode = 1
 
 [node name="ParallaxLayer6" type="ParallaxLayer" parent="Paralax/ParallaxBackground"]
+visible = false
 motion_scale = Vector2(0.9, 0)
 motion_mirroring = Vector2(960, 0)
 

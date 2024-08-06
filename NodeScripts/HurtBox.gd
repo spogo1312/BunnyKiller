@@ -13,3 +13,6 @@ func _on_area_entered(hitbox: HitBox) -> void:
 		return
 	if owner.has_method("take_damage"):
 		owner.take_damage(hitbox.damage)
+	if owner.has_method("knock_back"):
+		var source_global_position = hitbox.global_position
+		owner.knock_back(source_global_position)
