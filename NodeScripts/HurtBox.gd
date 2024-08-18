@@ -15,4 +15,5 @@ func _on_area_entered(hitbox: HitBox) -> void:
 		owner.take_damage(hitbox.damage)
 	if owner.has_method("knock_back"):
 		var source_global_position = hitbox.global_position
-		owner.knock_back(source_global_position)
+		var value = hitbox.knockBack
+		owner.knock_back(source_global_position, value)

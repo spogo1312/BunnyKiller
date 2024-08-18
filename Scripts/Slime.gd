@@ -3,7 +3,6 @@ extends CharacterBody2D
 @export var gravity = 400
 @export var jump_force = -100
 @export var hp = 30
-@export var knockback_force = 100.0 
 
 @onready var jump_timer = $Timer
 @onready var animated_sprite = $AnimatedSprite2D
@@ -121,7 +120,7 @@ func take_damage(amount: int) -> void:
 	hp -= amount
 	if hp <= 0:
 		die()
-func knock_back(source_position: Vector2) -> void:
+func knock_back(source_position: Vector2, knockback_force) -> void:
 	# Calculate the direction from the source to the enemy
 	var knockback_direction = global_position - source_position
 	
